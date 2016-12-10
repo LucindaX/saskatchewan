@@ -51,7 +51,7 @@ app.use(function(req, res){
             res.status(302).redirect(redirectLocation.pathname + redirectLocation.search);
         } else if(renderProps){ 
             var html = ReactDOM.renderToString(React.createElement(Router.RoutingContext, renderProps));
-            var page = swig.renderFile('views/index.html', {html: html, loggedIn: loggedIn});
+            var page = swig.renderFile('views/index.html', {html: html});
             res.status(200).send(page);
         } else{
             res.status(404).send('Page Not Found');
