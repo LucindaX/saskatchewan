@@ -2,7 +2,7 @@ import React from 'react';
 import UserList from './UserList';
 import ChatScreen from './ChatScreen';
 
-class Window extends React.Component {
+class Chat extends React.Component {
     render(){
         return (
             <div className="main_section">
@@ -17,4 +17,4 @@ class Window extends React.Component {
     }
 }
 
-export default Window;
+export default Chat;

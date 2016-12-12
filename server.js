@@ -3,7 +3,8 @@ var express = require('express'),
     logger = require('morgan'),
     bodyParser = require('body-parser'),
     unless = require('express-unless'),
-    cookieParser = require('cookie-parser');
+    cookieParser = require('cookie-parser'),
+		session = require('express-session');
 
 // Babel ES6/JSX Compiler
 require('babel-register');
@@ -17,6 +18,7 @@ var routes = require('./app/routes');
 var mongoose = require('mongoose'),
     config = require('./config');
 
+mongoose.Promise = global.Promise;
 mongoose.connect(config.database);
 mongoose.connection.on('error',function(){
     console.info('Error: Could not connect to database . Did you forget to run `mongod` ?');
@@ -34,6 +36,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
+app.use(session({
+	secret: '123QUETRY',
+	saveUninitialized: true,
+	resave: true
+}));
 
 
 // using the api routes
