@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 import RegisterActions from '../actions/RegisterActions';
 import RegisterStore from '../stores/RegisterStore';
 
@@ -104,7 +105,7 @@ class Register extends React.Component {
 							<hr className="colorgraph"/>
 							<div className="row">
 								<div className="col-xs-12 col-md-6"><input type="submit" value="Register" className="btn btn-primary btn-block btn-lg" tabIndex="7"/></div>
-								<div className="col-xs-12 col-md-6"><a href="#" className="btn btn-success btn-block btn-lg">Sign In</a></div>
+								<div className="col-xs-12 col-md-6"><Link to="/" className="btn btn-success btn-block btn-lg">Sign In</Link></div>
 							</div>
 						</form>
 					</div>
