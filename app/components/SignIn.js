@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 import SignInActions from '../actions/SignInActions';
 import SignInStore from '../stores/SignInStore';
 
@@ -60,18 +61,17 @@ class SignIn extends React.Component {
 						              <input type="password" name="password" id="password" ref="passwordTextField" value={this.state.password} onChange={SignInActions.updatePassword} className="form-control input-lg" placeholder="Password" autoFocus/>
 													<span className='help-block'>{this.state.passwordHelpBlock}</span>
 							</div>
-							<span className="button-checkbox">
-								<button type="button" className="btn" data-color="info">Remember Me</button>
-						              <input type="checkbox" name="remember_me" id="remember_me" checked="checked" className="hidden"/>
+							<div className="checkbox">
+						              <label><input type="checkbox" name="remember_me" id="remember_me" value={this.state.remember_me} onChange={SignInActions.updateRememberMe} value="1" /> Remember Me</label>
 								<a href="" className="btn btn-link pull-right">Forgot Password?</a>
-							</span>
+							</div>
 							<hr className="colorgraph"/>
 							<div className="row">
 								<div className="col-xs-6 col-sm-6 col-md-6">
 						                  <input type="submit" className="btn btn-lg btn-success btn-block" value="Sign In"/>
 								</div>
 								<div className="col-xs-6 col-sm-6 col-md-6">
-									<a href="" className="btn btn-lg btn-primary btn-block">Register</a>
+									<Link to="/register" className="btn btn-lg btn-primary btn-block">Register</Link>
 								</div>
 							</div>
 						</fieldset>

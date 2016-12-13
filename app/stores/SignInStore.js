@@ -6,6 +6,7 @@ class SignInStore{
 		this.bindActions(SignInActions);
 		this.username = '';
 		this.password = '';
+		this.remember_me = "1";
 		this.usernameHelpBlock = '';
 		this.passwordHelpBlock = '';
 		this.generalHelpBlock = '';
@@ -31,6 +32,10 @@ class SignInStore{
 		this.password = event.target.value;
 		this.passwordValidationState = '';
 		this.passwordHelpBlock = '';
+	}
+
+	onUpdateRememberMe(event){
+		this.remember_me = event.target.value;
 	}
 
 	onInvalidUsername(){

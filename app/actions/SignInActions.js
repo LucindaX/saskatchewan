@@ -5,6 +5,7 @@ class SignInActions {
 		this.generateActions(
 			'updateUsername',
 			'updatePassword',
+			'updateRememberMe',
 			'invalidUsername',
 			'invalidPassword'
 		);

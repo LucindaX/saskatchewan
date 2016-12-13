@@ -17,7 +17,49 @@ router.get('/signedIn', function(req, res, next){
 	res.send({id: req.session.id});
 });
 
-
+/** 
+	* POST /register
+	* register new user
+**/
+router.post('/register', function(req, res, next){
+	var username = req.body.username.toLowerCase();
+	var password = req.body.password;
+	var password_confirmation = req.body.password_confirmation;
+	var email = req.body.email;
+	
+	if(password !== password_confirmation){
+		res.status(401).send({message: "passwords do not match"});
+		return;
+	}
+	
+	User.find({ $or: [{ username: username }, { email: email }]}).limit(1)
+	.exec(function(err, users){
+		if(err) return next(err);
+		if(users.length > 0){
+			// another user with username or email exists
+			let user = users[0];
+			let msg = '';
+			if(user.username == username) msg = 'Display name already taken !';
+			else if (user.email == email) msg = 'Email already registered !';
+			res.status(401).send({message: msg});
+		}else{
+			// good to go .. register new user
+			// generate new salt and hash
+			let user = {};
+			pwd.hash(password, function(err, salt, hash){
+				if(err) return next(err);
+				user.username = username;
+				user.email = email;
+				user.salt = salt;
+				user.passwordHash = hash;
+				User.create(user, function(err, user){
+					if(err) return next(err);
+					res.send({ id: user.id });
+				});
+			});
+		}
+	});
+});
 /**
 	* POST /signin
 	* signin user
