@@ -27,7 +27,7 @@ class RegisterActions {
 	register(username, email, password, password_confirmation, history){
 		$.ajax({
 			type: 'POST',
-			url: '/api/register',
+			url: '/auth/register',
 			data: {
 				username: username,
 				email: email,

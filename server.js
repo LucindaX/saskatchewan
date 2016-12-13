@@ -38,17 +38,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(session({
 	secret: '123QUETRY',
-	saveUninitialized: true,
-	resave: true
+	cookie: {httpOnly: true, maxAge: 2*3600},
+	resave: false,
+	saveUnitialized: true
 }));
 
-
+app.use('/auth', require('./routes/auth'));
 // using the api routes
-app.use('/api', require('./routes/api'));
+app.use('/api', authChecker, require('./routes/api'));
 
 // The 'next(err)' handler
 app.use(errorHandler);
 
+app.use(authReact);
 // Handle React internal routes
 app.use(function(req, res){
     Router.match({ routes: routes.default, location: req.url }, function(err, redirectLocation, renderProps){
@@ -86,4 +88,19 @@ server.listen(app.get('port'), function(){
 function errorHandler(err, req, res, next){
     console.log(err);
     res.status(500).send({ message: err.message });
+}
+
+function authChecker(req, res, next){
+	if(req.session.user) next(); 
+	else res.status(401).send({ message: "You have no privilege" });
+}
+
+function authReact(req, res, next){
+	console.log(req.session.user);
+	if(!req.session.user){
+		if(req.url == '/chat') res.redirect('/');
+	}else{
+		if(req.url == '/' || req.url == '/register') res.redirect('/chat');
+	}
+	next();
 }

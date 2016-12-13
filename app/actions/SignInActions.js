@@ -25,7 +25,7 @@ class SignInActions {
 	signin(username, password, history){
 		$.ajax({
 			type: 'POST',
-			url: '/api/signin',
+			url: '/auth/signin',
 			data: {username: username, password: password}
 		}).done((data) => {
 			this.actions.signInSuccess(history);
