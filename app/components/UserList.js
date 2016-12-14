@@ -13,6 +13,12 @@ class UserList extends React.Component {
 	componentDidMount(){
 		UserListStore.listen(this.onChange);
 		UserListActions.getUsers();
+
+		let socket = io.connect();
+
+		socket.on('newUserStatus', (data) => {
+			UserListActions.updateUserList(data);
+		});
 	}
 
 	componentWillUnmount(){
@@ -26,7 +32,7 @@ class UserList extends React.Component {
   render(){
 		let userList = this.state.users.map( (user, index) => {
 			return(
-				<li className="left clearfix">
+				<li key={user._id} className="left clearfix">
 		       <span className="chat-img pull-left">
 					 	<div alt="User Avatar" className={"circle "+ (user.online ? "online" : "offline")}>{user.username.charAt(0)}</div>
 		       </span>

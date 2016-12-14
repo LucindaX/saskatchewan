@@ -8,7 +8,7 @@ var async = require('async'),
 
 var User = require('../models/User');
 var Conversation = require('../models/Conversation');
-
+var io = require('../lib/io');
 /**
 	* GET /signedIn
 	* check if user is logged in
@@ -18,11 +18,20 @@ router.get('/signedIn', function(req, res, next){
 });
 
 router.get('/logout', function(req, res, next){
-	User.find({id: req.session.user}, {$set: { online: true}}, function(err){
+	var id = req.session.user;
+	User.find({_id: id}, {online: 1, username: 1}).limit(1).exec(function(err, list){
 		if(err) return next(err);
-		req.session.user = null;
-		res.redirect("/");
-	})
+		if(list.length > 0){
+			let user = list[0];
+			user.online = false;
+			user.save(function(err, user){
+				io.emit('newUserStatus', user);
+				req.session.user = null;
+				res.redirect("/");
+			});
+		}
+		else return res.status(401).send();
+	});
 });
 
 /** 
@@ -63,8 +72,8 @@ router.post('/register', function(req, res, next){
 				user.online = true;
 				User.create(user, function(err, user){
 					if(err) return next(err);
-					req.session.user = user.id;
-					res.send({ id: user.id });
+					req.session.user = user._id;
+					res.send({ id: user._id });
 				});
 			});
 		}
@@ -79,15 +88,17 @@ router.post('/signin', function(req, res, next){
 	var password = req.body.password;
 	User.find({ $or: [ {email: username_email}, {username: username_email} ] }).limit(1).exec(function(err, users){
 		if(err) return next(err);
-		console.log(users);
 		if( users.length > 0 ){
 			var user = users[0];
 			pwd.hash(password, user.salt, function(err, hash){
 				if(user.passwordHash === hash) {
-					req.session.user = user.id;
+					req.session.user = user._id;
 					user.online = true;
-					user.save();
-					res.send({ id: user.id });
+					user.save({username: 1, online: 1}, function(err, obj){
+						if(err) return next(err);
+						io.emit('newUserStatus', _.pick(obj, 'username', '_id', 'online'));
+						res.send({ id: obj._id });
+					});
 				}
 				else res.status(401).send({message: 'Incorrect (username/email) or (password)'});
 			});

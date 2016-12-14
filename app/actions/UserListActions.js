@@ -1,6 +1,11 @@
 import alt from '../alt';
 
 class UserListActions{
+	
+	constructor(){
+		this.generateActions('updateUserList');
+	}
+
 	getUsersSuccess(payload){
 		this.dispatch(payload);
 	}

@@ -27,7 +27,7 @@ mongoose.connection.on('error',function(){
 // For socket.io
 var app = express(),
     server = require('http').createServer(app),
-    io = require('socket.io')(server);
+    io = require('./lib/io').attach(server);
 
 
 app.set('port',process.env.PORT || 3000);
@@ -69,24 +69,11 @@ app.use(function(req, res){
 });
 
 
-
-var onlineUsers = 0;
-
-io.sockets.on('connection', function(socket){
-    onlineUsers++;
-    io.sockets.emit('onlineUsers', { onlineUsers: onlineUsers });
-    socket.on('disconnect', function(){
-        onlineUsers--;
-        io.sockets.emit('onlineUsers', { onlineUsers: onlineUsers });
-    });
-});
-
 server.listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port') );
 });
 
 function errorHandler(err, req, res, next){
-    console.log(err);
     res.status(500).send({ message: err.message });
 }
 
@@ -96,7 +83,6 @@ function authChecker(req, res, next){
 }
 
 function authReact(req, res, next){
-	console.log(req.session.user);
 	if(!req.session.user){
 		if(req.url == '/chat') res.redirect('/');
 	}else{
