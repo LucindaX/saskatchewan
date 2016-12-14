@@ -18,8 +18,11 @@ router.get('/signedIn', function(req, res, next){
 });
 
 router.get('/logout', function(req, res, next){
-	req.session.user = null;
-	res.redirect("/");
+	User.find({id: req.session.user}, {$set: { online: true}}, function(err){
+		if(err) return next(err);
+		req.session.user = null;
+		res.redirect("/");
+	})
 });
 
 /** 
@@ -57,6 +60,7 @@ router.post('/register', function(req, res, next){
 				user.email = email;
 				user.salt = salt;
 				user.passwordHash = hash;
+				user.online = true;
 				User.create(user, function(err, user){
 					if(err) return next(err);
 					req.session.user = user.id;
@@ -81,7 +85,8 @@ router.post('/signin', function(req, res, next){
 			pwd.hash(password, user.salt, function(err, hash){
 				if(user.passwordHash === hash) {
 					req.session.user = user.id;
-					console.log(req.session.user);
+					user.online = true;
+					user.save();
 					res.send({ id: user.id });
 				}
 				else res.status(401).send({message: 'Incorrect (username/email) or (password)'});

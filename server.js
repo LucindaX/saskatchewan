@@ -38,9 +38,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(session({
 	secret: '123QUETRY',
-	cookie: {httpOnly: true, maxAge: 2*3600},
+	cookie: {httpOnly: true, maxAge: 3600000},
 	resave: false,
-	saveUnitialized: true
+	saveUninitialized: true
 }));
 
 app.use('/auth', require('./routes/auth'));

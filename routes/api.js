@@ -16,9 +16,9 @@ var Conversation = require('../models/Conversation');
 	* Return all users
 **/
 router.get('/users', function(req, res, next){
-	User.find({},{username: 1, status: 1, id: 1}).exec(function(err, users){
+	User.find({},{username: 1, online: 1, id: 1}).sort({online: -1, username: 1}).exec(function(err, users){
 		if(err) return next(err);
-		res.send({users: users});
+		res.send(users);
 	})
 });
 
