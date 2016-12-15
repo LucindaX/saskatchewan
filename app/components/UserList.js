@@ -32,7 +32,7 @@ class UserList extends React.Component {
   render(){
 		let userList = this.state.users.map( (user, index) => {
 			return(
-				<li key={user._id} className="left clearfix">
+				<li key={user._id} className="left clearfix" onClick={() => this.props.openConv(user)}>
 		       <span className="chat-img pull-left">
 					 	<div alt="User Avatar" className={"circle "+ (user.online ? "online" : "offline")}>{user.username.charAt(0)}</div>
 		       </span>

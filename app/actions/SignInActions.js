@@ -1,4 +1,5 @@
 import alt from '../alt';
+import Auth from '../services/Auth';
 
 class SignInActions {
 	constructor(){
@@ -27,7 +28,8 @@ class SignInActions {
 			type: 'POST',
 			url: '/auth/signin',
 			data: {username: username, password: password}
-		}).done((data) => {
+		}).done((user) => {
+			Auth.me = user;
 			this.actions.signInSuccess(history);
 		}).fail((jqxhr) => {
 			this.actions.signInFail(jqxhr.responseJSON.message);

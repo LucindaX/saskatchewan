@@ -73,7 +73,7 @@ router.post('/register', function(req, res, next){
 				User.create(user, function(err, user){
 					if(err) return next(err);
 					req.session.user = user._id;
-					res.send({ id: user._id });
+					res.send(user);
 				});
 			});
 		}
@@ -96,8 +96,9 @@ router.post('/signin', function(req, res, next){
 					user.online = true;
 					user.save({username: 1, online: 1}, function(err, obj){
 						if(err) return next(err);
-						io.emit('newUserStatus', _.pick(obj, 'username', '_id', 'online'));
-						res.send({ id: obj._id });
+						let filtered = _.pick(obj, 'username', '_id', 'online')
+						io.emit('newUserStatus', filtered);
+						res.send(filtered);
 					});
 				}
 				else res.status(401).send({message: 'Incorrect (username/email) or (password)'});

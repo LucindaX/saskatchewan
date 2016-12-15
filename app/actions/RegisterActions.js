@@ -1,4 +1,5 @@
 import alt from '../alt';
+import Auth from '../services/Auth';
 
 class RegisterActions {
 	constructor(){
@@ -34,7 +35,8 @@ class RegisterActions {
 				password: password,
 				password_confirmation: password_confirmation
 			}
-		}).done((data) => {
+		}).done((user) => {
+			Auth.me = user;
 			this.actions.registerSuccess(history);
 		}).fail((jqxhr) => {
 			this.actions.registerFail(jqxhr.responseJSON.message);
