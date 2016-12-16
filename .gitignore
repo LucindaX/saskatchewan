@@ -34,5 +34,6 @@ bower_components
 
 #Compiled files
 public/css/*
+!public/css/app.css
 public/js/*
 

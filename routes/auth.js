@@ -72,7 +72,7 @@ router.post('/register', function(req, res, next){
 				user.online = true;
 				User.create(user, function(err, user){
 					if(err) return next(err);
-					req.session.user = user._id;
+					req.session.user = user;
 					res.send(user);
 				});
 			});
@@ -92,11 +92,11 @@ router.post('/signin', function(req, res, next){
 			var user = users[0];
 			pwd.hash(password, user.salt, function(err, hash){
 				if(user.passwordHash === hash) {
-					req.session.user = user._id;
 					user.online = true;
 					user.save({username: 1, online: 1}, function(err, obj){
 						if(err) return next(err);
 						let filtered = _.pick(obj, 'username', '_id', 'online')
+						req.session.user = filtered;
 						io.emit('newUserStatus', filtered);
 						res.send(filtered);
 					});
