@@ -37,6 +37,13 @@ class ChatScreenStore {
 		this.message = event.target.value;
 	}
 
+	onLogoutSuccess(history){
+		history.pushState(null, '/')
+	}
+	onLogoutFail(){
+		toastr.error("Server not responding , please try again");
+	}
+
 }
 
 export default alt.createStore(ChatScreenStore);

@@ -98,7 +98,6 @@ var returnRouter = function(io){
 							if(err) return next(err);
 							let filtered = _.pick(obj, 'username', '_id', 'online')
 							req.session.user = filtered;
-							console.log('#### Session is set at sign in ####');
 							io.emit('newUserStatus', filtered);
 							res.send(filtered);
 						});

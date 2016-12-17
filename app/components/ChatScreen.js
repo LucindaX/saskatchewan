@@ -39,6 +39,11 @@ class ChatScreen extends React.Component {
 		else ChatScreenActions.sendMessage(message, this.state.user);
 	}
 
+	handleLogout(event){
+		event.preventDefault();
+		ChatScreenActions.logout(this.props.history);
+	}
+
 
 	render(){
 		
@@ -100,7 +105,7 @@ class ChatScreen extends React.Component {
 						    <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
 						      <li><a href="#">Action</a></li>
 						      <li><a href="#">Profile</a></li>
-						      <li><Link to="/auth/logout">Logout</Link></li>
+						      <li><a onClick={this.handleLogout.bind(this)}>Logout</a></li>
 						    </ul>
 						  </div>
 						</div>

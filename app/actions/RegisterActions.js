@@ -36,7 +36,7 @@ class RegisterActions {
 				password_confirmation: password_confirmation
 			}
 		}).done((user) => {
-			Auth.me = user;
+			Auth.save(user);
 			this.actions.registerSuccess(history);
 		}).fail((jqxhr) => {
 			this.actions.registerFail(jqxhr.responseJSON.message);

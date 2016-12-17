@@ -29,7 +29,7 @@ class SignInActions {
 			url: '/auth/signin',
 			data: {username: username, password: password}
 		}).done((user) => {
-			Auth.me = user;
+			Auth.save(user);
 			this.actions.signInSuccess(history);
 		}).fail((jqxhr) => {
 			this.actions.signInFail(jqxhr.responseJSON.message);

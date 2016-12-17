@@ -50,8 +50,6 @@ io.use(function(socket, next){
 });
 // initialize socket for incoming routes
 io.sockets.on('connection', function(socket){
-	console.log('###### socket connected now #####');
-	console.log(socket.request.session.user);
 	if(socket.request.session.user)
 	socket.join(socket.request.session.user._id);
 })

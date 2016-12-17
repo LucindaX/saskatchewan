@@ -42,7 +42,7 @@ class Chat extends React.Component {
                <div className="container">
                   <div className="chat_container">
                     <UserList openConv = {this.openConv} notification={this.state.notification}/>
-                    <ChatScreen user={this.state.user} me={Auth.me} message={this.state.message}/>
+                    <ChatScreen user={this.state.user} me={Auth.get()} message={this.state.message} history={this.props.history} />
                   </div>
                </div>
             </div>

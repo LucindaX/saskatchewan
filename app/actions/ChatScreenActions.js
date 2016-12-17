@@ -1,4 +1,5 @@
 import alt from '../alt';
+import Auth from '../services/Auth';
 
 class ChatScreenActions {
 	
@@ -24,6 +25,24 @@ class ChatScreenActions {
 
 	sendMessageFail(payload){
 		this.dispatch(payload);
+	}
+
+	logoutSuccess(payload){
+		this.dispatch(payload);
+	}
+
+	logoutFail(payload){
+		this.dispatch(payload);
+	}
+
+	logout(history){
+		$.ajax({ url: '/auth/logout' })
+			.done( () => {
+				Auth.logout();
+				this.actions.logoutSuccess(history);
+			}).fail( () => {
+				this.actions.logoutFail();
+			});
 	}
 
 	getConversation(user){
