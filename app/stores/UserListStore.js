@@ -6,6 +6,7 @@ class UserListStore{
 	constructor(){
 		this.bindActions(UserListActions);
 		this.users = [];
+		this.notifications = [];
 	}
 
 	onGetUsersSuccess(data){
@@ -16,9 +17,15 @@ class UserListStore{
 		toastr.error(message);
 	}
 
+	onAddNotification(id){
+		this.notifications.push(id);
+	}
+
+	onRemoveNotification(index){
+		this.notifications.splice(index, 1);
+	}
+
 	onUpdateUserList(data){
-		console.log("Socket data");
-		console.log(data);
 		let index = _.indexOf(this.users, _.find(this.users, {_id: data._id}));
 		this.users.splice(index, 1, data);
 		this.users = this.users.sort(function(a,b){

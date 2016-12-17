@@ -27,7 +27,7 @@ mongoose.connection.on('error',function(){
 // For socket.io
 var app = express(),
     server = require('http').createServer(app),
-    io = require('./lib/io').attach(server);
+    io = require('socket.io')(server);
 
 
 app.set('port',process.env.PORT || 3000);
@@ -36,16 +36,29 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
-app.use(session({
+var sessionMW = session({
 	secret: '123QUETRY',
 	cookie: {httpOnly: true, maxAge: 3600000},
 	resave: false,
 	saveUninitialized: true
-}));
+});
 
-app.use('/auth', require('./routes/auth'));
+app.use(sessionMW);
+
+io.use(function(socket, next){
+	sessionMW(socket.request, socket.request.res, next);
+});
+// initialize socket for incoming routes
+io.sockets.on('connection', function(socket){
+	console.log('###### socket connected now #####');
+	console.log(socket.request.session.user);
+	if(socket.request.session.user)
+	socket.join(socket.request.session.user._id);
+})
+
+app.use('/auth', require('./routes/auth')(io));
 // using the api routes
-app.use('/api', authChecker, require('./routes/api'));
+app.use('/api', authChecker, require('./routes/api')(io));
 
 // The 'next(err)' handler
 app.use(errorHandler);

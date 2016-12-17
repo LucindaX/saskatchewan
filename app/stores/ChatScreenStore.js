@@ -7,6 +7,7 @@ class ChatScreenStore {
 		this.user = null;
 		this.conversation = [];
 		this.message = "";
+		this.new_message = {};
 	}
 
 	onGetConversationSuccess(data){
@@ -21,6 +22,11 @@ class ChatScreenStore {
 	onSendMessageSuccess(message){
 		this.conversation.push(message);
 		this.message = "";
+	}
+
+	onAddMessage(message){
+		this.conversation.push(message);
+		this.new_message = message;
 	}
 
 	onSendMessageFail(message){

@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ConversationSchema = new mongoose.Schema({
-	users: { type: [Schema.ObjectId], index: true },
+	_id: {type: String, index: true, unique: true},
 	conversation: [
 		{
 			user: { type: Schema.ObjectId, required: true },

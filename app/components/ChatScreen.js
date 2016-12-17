@@ -20,6 +20,9 @@ class ChatScreen extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps){
+		if(nextProps.message !== this.state.new_message){
+			ChatScreenActions.addMessage(nextProps.message);
+		}
 		if(nextProps.user !== this.state.user){
 			ChatScreenActions.getConversation(nextProps.user);
 		}
@@ -61,9 +64,9 @@ class ChatScreen extends React.Component {
 										{originator.username.charAt(0)}
 									</div>
 						    </span>
-						    <div className="chat-body1 clearfix">
-						      <p>{item.message}</p><div></div>
-						      <div className={"chat_time "+(pull == 'pull-right' ? 'pull-left' : 'pull-right')}>{dateFormat(item.date,"h:MM:ss TT")}</div>
+						    <div className={"chat-body1 clearfix "+ (pull == 'pull-right' ? 'marginRight50' : "")}>
+						      <p className={pull}>{item.message}</p><div className="clearBoth"></div>
+						      <div className={"chat_time "+(pull == 'pull-right' ? 'pull-left' : 'pull-right')}>{dateFormat(item.date,"h:MM TT")}</div>
 						    </div>
 						  </li>
 					);

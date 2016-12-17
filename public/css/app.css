@@ -1,3 +1,13 @@
+	.clearBoth{
+		clear: both;
+	}
+	.marginRight50{
+		margin-right: 50px;
+	}
+	.header_sec .badge{
+		color: transparent;
+		background: #FFB970;
+	}
 	.chat-body1 p{
 		border-radius: 5px;
 		display:inline-block;

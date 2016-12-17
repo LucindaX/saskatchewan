@@ -5,6 +5,10 @@ class ChatScreenActions {
 	updateMessage(payload){
 		this.dispatch(payload);
 	}
+	
+	addMessage(payload){
+		this.dispatch(payload);
+	}
 
 	getConversationSuccess(payload){
 		this.dispatch(payload);
