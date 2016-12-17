@@ -33,6 +33,7 @@ class ChatScreen extends React.Component {
 	}
 
 	handleSubmit(event){
+		event.preventDefault();
 		var message = this.state.message;
 		if(message.trim() == "") return;
 		else ChatScreenActions.sendMessage(message, this.state.user);
@@ -58,7 +59,7 @@ class ChatScreen extends React.Component {
 					}
 
 					return(	
-							<li key={index+item.message.length} className="left clearfix">
+							<li key={index} className="left clearfix">
 						    <span className={"chat-img1 "+pull}>
 						    	<div alt="User Avatar" className="circle offline">
 										{originator.username.charAt(0)}
@@ -66,7 +67,7 @@ class ChatScreen extends React.Component {
 						    </span>
 						    <div className={"chat-body1 clearfix "+ (pull == 'pull-right' ? 'marginRight50' : "")}>
 						      <p className={pull}>{item.message}</p><div className="clearBoth"></div>
-						      <div className={"chat_time "+(pull == 'pull-right' ? 'pull-left' : 'pull-right')}>{dateFormat(item.date,"h:MM TT")}</div>
+						      <div className={"chat_time "+(pull)}>{dateFormat(item.date,"h:MM TT")}</div>
 						    </div>
 						  </li>
 					);

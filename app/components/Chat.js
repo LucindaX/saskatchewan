@@ -14,7 +14,7 @@ class Chat extends React.Component {
 		componentDidMount(){
 			let socket = io.connect();
 			socket.on('message', (obj) => {
-				if(obj.user == this.state.user._id){
+				if(this.state.user && (obj.user == this.state.user._id)){
 					// screen already open
 					// add to conversation
 					this.setState({ message: obj });
@@ -25,7 +25,10 @@ class Chat extends React.Component {
 			});
 		}
 		
-		openConv(user){
+		openConv(user, index){
+			if(index > -1){
+				this.setState({notification: { index: index} })
+			}
 			this.setState({ user: user });
 		}
 		

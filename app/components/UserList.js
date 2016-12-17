@@ -26,8 +26,13 @@ class UserList extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps){
-		if(this.state.notifications.indexOf(nextProps.notification) == -1){
-			UserListActions.addNotification(nextProps.notification);
+		if(nextProps.notification){
+			if(nextProps.notification.index !== undefined){
+				UserListActions.removeNotification(nextProps.notification);
+			}
+			else if(this.state.notifications.indexOf(nextProps.notification) == -1){
+				UserListActions.addNotification(nextProps.notification);
+			}
 		}
 	}
 
@@ -39,7 +44,7 @@ class UserList extends React.Component {
 		let userList = this.state.users.map( (user, index) => {
 			let notified = this.state.notifications.indexOf(user._id);
 			return(
-				<li key={user._id} className="left clearfix" onClick={() => this.props.openConv(user)}>
+				<li key={user._id} className="left clearfix" onClick={() => this.props.openConv(user, notified)}>
 		       <span className="chat-img pull-left">
 					 	<div alt="User Avatar" className={"circle "+ (user.online ? "online" : "offline")}>{user.username.charAt(0)}</div>
 		       </span>
