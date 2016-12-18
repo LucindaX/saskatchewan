@@ -32,6 +32,7 @@
 		font-size: 20px;
 		padding: 2%;
 		border: 1px solid;
+		border-bottom: 0;
 		background: #F5F3F3;
 	}
 	.circle{
@@ -172,6 +173,9 @@
    max-height: 509px;
    overflow-x: hidden;
    overflow-y: auto;
+	 min-height: 467px;
+	 background: #F5F3F3;
+	 border: 1px solid grey;
    }
    .sub_menu_ {
   background: #e8e6e7 none repeat scroll 0 0;

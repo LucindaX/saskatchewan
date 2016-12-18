@@ -33,6 +33,10 @@ class UserListStore{
 			else if( !a.online && b.online ) return 1;
 			else return a.username > b.username ;
 		});
+		if( data.online )
+		toastr.info(data.username + " is online");
+		else
+		toastr.info(data.username + " has gone offline");
 	}
 }
 
